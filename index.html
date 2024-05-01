@@ -6,7 +6,6 @@
     <style>
       body {
         margin: 0;
-        /* padding-bottom: 3rem; */
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           Helvetica, Arial, sans-serif;
       }
@@ -50,51 +49,73 @@
         color: #fff;
       }
 
-      #messages {
+      #messages-list {
         list-style-type: none;
         margin: 0;
         padding: 0;
       }
-      #messages > li {
+      #messages-list > li {
         padding: 0.5rem 1rem;
       }
-      #messages > li:nth-child(odd) {
+      #messages-list > li:nth-child(odd) {
         background: #efefef;
       }
     </style>
   </head>
   <body>
     <div id="loginfield">
-      <form id="login" action="">
-        <input id="username" autocomplete="off" /><button>Login</button>
+      <form id="login-form" action="">
+        <input id="login-input" autocomplete="off" autofocus /><button>
+          Login
+        </button>
       </form>
     </div>
     <div id="chatfield" style="display: none">
-      <ul id="messages"></ul>
-      <form id="form" action="">
-        <input id="input" autocomplete="off" /><button>Send</button>
+      <ul id="messages-list"></ul>
+      <form id="send-messages-form" action="">
+        <input id="send-messages-input" autocomplete="off" /><button>
+          Send
+        </button>
       </form>
     </div>
     <script src="/socket.io/socket.io.js"></script>
     <script>
+      const loginfield = document.getElementById("loginfield");
+      const loginForm = document.getElementById("login-form");
+      const loginInput = document.getElementById("login-input");
+      let username = "";
+
       var socket = io();
+      const chatfield = document.getElementById("chatfield");
+      const messagesList = document.getElementById("messages-list");
+      const sendMessagesForm = document.getElementById("send-messages-form");
+      const sendMessagesInput = document.getElementById("send-messages-input");
 
-      const form = document.getElementById("form");
-      const input = document.getElementById("input");
-      const messages = document.getElementById("messages");
-
-      form.addEventListener("submit", (e) => {
+      loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        if (input.value) {
-          socket.emit("chat message", input.value);
-          input.value = "";
+        if (loginInput.value) {
+          loginfield.style.display = "none";
+          chatfield.style.display = "";
+          sendMessagesInput.focus();
+          username = loginInput.value;
+        }
+      });
+
+      sendMessagesForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        if (sendMessagesInput.value) {
+          socket.emit(
+            "chat message",
+            `${username}: ${sendMessagesInput.value}`
+          );
+          sendMessagesInput.value = "";
         }
       });
 
       socket.on("chat message", (msg) => {
         const item = document.createElement("li");
         item.textContent = msg;
-        messages.appendChild(item);
+        messagesList.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
     </script>
