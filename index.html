@@ -17,7 +17,7 @@
         height: 100vh;
       }
 
-      #form {
+      #send-messages-form {
         background: rgba(0, 0, 0, 0.15);
         padding: 0.25rem;
         position: fixed;
@@ -29,17 +29,17 @@
         box-sizing: border-box;
         backdrop-filter: blur(10px);
       }
-      #input {
+      #send-messages-input {
         border: none;
         padding: 0 1rem;
         flex-grow: 1;
         border-radius: 2rem;
         margin: 0.25rem;
       }
-      #input:focus {
+      #send-messages-input:focus {
         outline: none;
       }
-      #form > button {
+      #send-messages-form > button {
         background: #333;
         border: none;
         padding: 0 1rem;
@@ -90,6 +90,8 @@
       const sendMessagesForm = document.getElementById("send-messages-form");
       const sendMessagesInput = document.getElementById("send-messages-input");
 
+      const socket = io();
+
       loginForm.addEventListener("submit", (e) => {
         e.preventDefault();
         if (loginInput.value) {
@@ -97,7 +99,6 @@
           chatfield.style.display = "";
           sendMessagesInput.focus();
           username = loginInput.value;
-          var socket = io();
           socket.emit("login", username);
         }
       });
@@ -105,17 +106,23 @@
       sendMessagesForm.addEventListener("submit", (e) => {
         e.preventDefault();
         if (sendMessagesInput.value) {
-          socket.emit(
-            "chat message",
-            `${username}: ${sendMessagesInput.value}`
-          );
+          socket.emit("chat message", {
+            username: username,
+            message: sendMessagesInput.value,
+          });
           sendMessagesInput.value = "";
         }
       });
 
       socket.on("chat message", (msg) => {
+        const { username, message } = msg;
+        document.createnode;
         const item = document.createElement("li");
-        item.textContent = msg;
+        item.innerHTML = `
+        <div>
+          <div style="font-weight: bold">${username}</div>
+          <div>${message}</div>
+        </div>`;
         messagesList.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });
