@@ -115,12 +115,12 @@
       });
 
       socket.on("chat message", (msg) => {
-        const { username, message } = msg;
+        const { username: messageUsername, message } = msg;
         document.createnode;
         const item = document.createElement("li");
         item.innerHTML = `
-        <div>
-          <div style="font-weight: bold">${username}</div>
+        <div ${messageUsername === username ? `style="text-align: right"` : ""}>
+          <div style="font-weight: bold">${messageUsername}</div>
           <div>${message}</div>
         </div>`;
         messagesList.appendChild(item);
