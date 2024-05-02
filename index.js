@@ -21,16 +21,20 @@ app.get("/", (req, res) => {
   res.sendFile(fileName, options, (err) => {
     if (err) {
       console.error("Error sending file:", err);
-    } else {
-      console.log("Sent:", fileName);
     }
   });
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected");
+  let tempUsername;
+  socket.on("login", (username) => {
+    console.log(`Username: "${username}" has connected`);
+    tempUsername = username;
+  });
+
   socket.on("disconnect", () => {
-    console.log("user disconnected");
+    if (tempUsername)
+      console.log(`Username: "${tempUsername}" has disconnected`);
   });
 
   socket.on("chat message", (msg) => {

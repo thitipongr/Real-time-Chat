@@ -85,7 +85,6 @@
       const loginInput = document.getElementById("login-input");
       let username = "";
 
-      var socket = io();
       const chatfield = document.getElementById("chatfield");
       const messagesList = document.getElementById("messages-list");
       const sendMessagesForm = document.getElementById("send-messages-form");
@@ -98,6 +97,8 @@
           chatfield.style.display = "";
           sendMessagesInput.focus();
           username = loginInput.value;
+          var socket = io();
+          socket.emit("login", username);
         }
       });
 
