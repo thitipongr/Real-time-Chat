@@ -103,6 +103,19 @@
         }
       });
 
+      socket.on("new one join", (newUser) => {
+        console.log("new one");
+        if (username !== newUser) {
+          const item = document.createElement("li");
+          item.innerHTML = `
+        <div style="text-align: center">
+          <div style="font-weight: light">${newUser} has joined the room</div>
+        </div>`;
+          messagesList.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+        }
+      });
+
       sendMessagesForm.addEventListener("submit", (e) => {
         e.preventDefault();
         if (sendMessagesInput.value) {
@@ -116,7 +129,6 @@
 
       socket.on("chat message", (msg) => {
         const { username: messageUsername, message } = msg;
-        document.createnode;
         const item = document.createElement("li");
         item.innerHTML = `
         <div ${messageUsername === username ? `style="text-align: right"` : ""}>

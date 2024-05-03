@@ -30,6 +30,7 @@ io.on("connection", (socket) => {
   socket.on("login", (username) => {
     console.log(`Username: "${username}" has connected`);
     tempUsername = username;
+    io.emit("new one join", tempUsername);
   });
 
   socket.on("disconnect", () => {
