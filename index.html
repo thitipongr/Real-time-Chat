@@ -15,10 +15,21 @@
         justify-content: center;
         align-items: center;
         height: 100vh;
+        background: #efefef;
+      }
+
+      #login-form {
+        background: rgba(0, 0, 0, 0.25);
+        padding: 0.25rem;
+        display: flex;
+        height: 3rem;
+        box-sizing: border-box;
+        backdrop-filter: blur(10px);
+        border-radius: 2rem;
       }
 
       #send-messages-form {
-        background: rgba(0, 0, 0, 0.15);
+        background: rgba(0, 0, 0, 0.25);
         padding: 0.25rem;
         position: fixed;
         bottom: 0;
@@ -29,22 +40,26 @@
         box-sizing: border-box;
         backdrop-filter: blur(10px);
       }
-      #send-messages-input {
+
+      #send-messages-input,
+      #login-input {
         border: none;
         padding: 0 1rem;
         flex-grow: 1;
         border-radius: 2rem;
         margin: 0.25rem;
       }
-      #send-messages-input:focus {
+      #send-messages-input:focus,
+      #login-input:focus {
         outline: none;
       }
-      #send-messages-form > button {
+      #send-messages-form > button,
+      #login-form > button {
         background: #333;
         border: none;
         padding: 0 1rem;
         margin: 0.25rem;
-        border-radius: 3px;
+        border-radius: 2rem;
         outline: none;
         color: #fff;
       }
