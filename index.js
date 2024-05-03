@@ -34,8 +34,10 @@ io.on("connection", (socket) => {
   });
 
   socket.on("disconnect", () => {
-    if (tempUsername)
+    if (tempUsername) {
       console.log(`Username: "${tempUsername}" has disconnected`);
+      io.emit("user leave", tempUsername);
+    }
   });
 
   socket.on("chat message", (msg) => {

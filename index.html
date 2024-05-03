@@ -111,9 +111,20 @@
             <div style="font-weight: light">${newUser} has joined the room</div>
           </div>
           `;
-          messagesList.appendChild(item);
+          if (username) messagesList.appendChild(item);
           window.scrollTo(0, document.body.scrollHeight);
         }
+      });
+
+      socket.on("user leave", (user) => {
+        const item = document.createElement("li");
+        item.innerHTML = `
+          <div style="text-align: center">
+            <div style="font-weight: light">${user} has left the room</div>
+          </div>
+          `;
+        if (username) messagesList.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
       });
 
       sendMessagesForm.addEventListener("submit", (e) => {
